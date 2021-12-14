@@ -1,7 +1,8 @@
 import csv
 import os
 from bs4 import BeautifulSoup as bs
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 input = []
 
@@ -123,5 +124,19 @@ def fit_func(x, a, b, c):
 	return a * x + b * x**2 + c
 
 csv = []
+dates = []
+elec = []
+pred = []
+
 for i, data in enumerate(results):
-	csv.append([data[0], data[1], avg_temps[i]], fit_func(avg_temps[i], coeffs[0], coeffs[1], coeffs[2]))
+    csv.append([data[0], data[1], avg_temps[i], fit_func(avg_temps[i], coeffs[0], coeffs[1], coeffs[2])])
+    dates.append(data[0])
+    elec.append(data[1])
+    pred.append(fit_func(avg_temps[i], coeffs[0], coeffs[1], coeffs[2]))
+
+
+
+plt.plot(dates, elec, label = "real electricity consumption")
+plt.plot(dates, pred, label = "predicted electricity consumption")
+plt.legend()
+plt.show()
