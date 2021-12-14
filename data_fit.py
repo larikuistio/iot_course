@@ -16,7 +16,7 @@ df = pd.read_csv("data_no_outliers.txt", header=None)
 coeffs, _ = curve_fit(fit_func, df[2], df[1])
 
 print('y = %.5f * x + %.5f * x^2 + %.5f' % (coeffs[0], coeffs[1], coeffs[2]))
-print(fit_func(-10, coeffs[0], coeffs[1], coeffs[2]))
+print(fit_func(-5, coeffs[0], coeffs[1], coeffs[2]))
 
 plt.scatter(df[2], df[1])
 # define a sequence of inputs between the smallest and largest known inputs

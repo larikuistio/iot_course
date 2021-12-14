@@ -11,14 +11,14 @@ electricity = []
 with open('electricity.txt', newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in csvreader:
-    	date.append(row[0])
-    	electricity.append(float(row[1]))
+        date.append(row[0])
+        electricity.append(float(row[1]))
 
 temperature = []
-with open('temperature.txt', newline='') as csvfile:
+with open('temperatures.txt', newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in csvreader:
-    	temperature.append(float(row[1]))
+        temperature.append(float(row[1]))
 
 # https://www.machinelearningplus.com/statistics/mahalanobis-distance/
 data = np.array([electricity, temperature])
