@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup as bs
-#import urllib.request as req
 import os
 
 cities = [
@@ -79,16 +78,12 @@ for city in files:
                         temps2.append(list(element.children)[7].text)
                         d[list(element.children)[3].text.split("T")[0]] = list(element.children)[7].text
 
-            #dates2.reverse()
-            #temps2.reverse()
             if k < 5:
                 dates.extend(dates2)
             temps.append(temps2)
         k += 1
     dicts.append(d)
 
-#dates.reverse()
-#temps.reverse()
 
 days = dicts[0].keys()
 avg_temps = []
@@ -102,10 +97,7 @@ for day in days:
                 sum_temp = sum_temp + float(temp) * weights[i]
                 num = num + weights[i]
     avg_temps.append(sum_temp / num)
-    #print(day + ": " + str(sum_temp / num) + " " + str(sum_temp) + " " + str(num))
 
-print(len(days))
-print(len(avg_temps))
 
 with open("temperatures.txt", "w") as file:
     for date, temp in zip(days, avg_temps):

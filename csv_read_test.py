@@ -9,8 +9,6 @@ with open('events.csv', newline='') as csvfile:
     for row in csvreader:
         input.insert(len(input), [ ((row[2]).split(' '))[0].strip('"'), row[4].strip('"') ])
 
-#print(input)
-print(len(input))
 
 i = 0
 day = []
@@ -26,25 +24,14 @@ for item in input[1:len(input)]:
         results.insert(len(results), [day[0][0], avg_consump])
         day = []
     day.insert(len(day), item)
-    """i += 1
-    if i == 24:
-        avg_consump = 0
-        sum = 0
-        for value in day:
-            sum += float(value[1])
-        avg_consump = sum / 24
-        results.insert(len(results), [day[0][0], avg_consump])
-        i = 0
-        day = []"""
 
-#print(results)
 
 with open("electricity.txt", "w") as file:
     for data in results:
         file.write(data[0] + ", " + str(data[1]) + "\n")
 
 temps = []
-with open('temperature.txt', newline='') as csvfile:
+with open('temperatures.txt', newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in csvreader:
         temps.insert(len(input), [ row[0], float(row[1].strip(' ')) ])
@@ -69,5 +56,3 @@ print(intercept)
 plt.plot(x, y, 'o')
 plt.plot(xx, yy)
 plt.show()
-
-#print(results)
