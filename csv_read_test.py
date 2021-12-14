@@ -24,6 +24,14 @@ for item in input[1:len(input)]:
         results.insert(len(results), [day[0][0], avg_consump])
         day = []
     day.insert(len(day), item)
+if day:
+        avg_consump = 0
+        sum = 0
+        for value in day:
+            sum += float(value[1])
+        avg_consump = sum / len(day)
+        results.insert(len(results), [day[0][0], avg_consump])
+        day = []
 
 
 with open("electricity.txt", "w") as file:
