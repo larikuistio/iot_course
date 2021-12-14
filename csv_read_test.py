@@ -4,7 +4,7 @@ from scipy import stats
 
 input = []
 
-with open('events.csv', newline='') as csvfile:
+with open('electricity_hourly.csv', newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in csvreader:
         input.insert(len(input), [ ((row[2]).split(' '))[0].strip('"'), row[4].strip('"') ])
