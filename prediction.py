@@ -1,5 +1,7 @@
 import csv
 import os
+from bs4 import BeautifulSoup as bs
+
 
 input = []
 
@@ -115,14 +117,11 @@ for day in days:
                 num = num + weights[i]
     avg_temps.append(sum_temp / num)
 
-
-csv = []
-for i, data in enumerate(results):
-	csv.append([data[0], data[1], avg_temps[i]])
-
 coeffs = [-171.76159, 1.91867, 10227.69325]
 
 def fit_func(x, a, b, c):
 	return a * x + b * x**2 + c
 
-# fit_func(temp, coeffs[0], coeffs[1], coeffs[2])
+csv = []
+for i, data in enumerate(results):
+	csv.append([data[0], data[1], avg_temps[i]], fit_func(avg_temps[i], coeffs[0], coeffs[1], coeffs[2]))
