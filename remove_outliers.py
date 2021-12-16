@@ -6,6 +6,8 @@ from scipy.spatial import distance
 import pandas as pd
 import scipy as sp
 
+plt.rcParams["figure.figsize"] = (12, 8)
+
 date = []
 electricity = []
 with open('electricity.txt', newline='') as csvfile:

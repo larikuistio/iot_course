@@ -6,7 +6,7 @@ import numpy as np
 
 input = []
 
-with open('events.csv', newline='') as csvfile:
+with open('events_pred.csv', newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     next(csvreader)
     for row in csvreader:
@@ -118,7 +118,7 @@ for day in days:
                 num = num + weights[i]
     avg_temps.append(sum_temp / num)
 
-coeffs = [-171.76159, 1.91867, 10227.69325]
+coeffs = [-171.76161, 1.91893, 10227.62947]
 
 def fit_func(x, a, b, c):
 	return a * x + b * x**2 + c
@@ -135,7 +135,7 @@ for i, data in enumerate(results):
     pred.append(fit_func(avg_temps[i], coeffs[0], coeffs[1], coeffs[2]))
 
 
-
+plt.figure(figsize=(14, 10), dpi=80)
 plt.plot(dates, elec, label = "real electricity consumption")
 plt.plot(dates, pred, label = "predicted electricity consumption")
 plt.legend()
