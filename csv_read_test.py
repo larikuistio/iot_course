@@ -63,5 +63,5 @@ print(intercept)
 
 plt.figure(figsize=(14, 10), dpi=80)
 plt.plot(x, y, 'o')
-plt.plot(xx, yy)
+#plt.plot(xx, yy)
 plt.show()
