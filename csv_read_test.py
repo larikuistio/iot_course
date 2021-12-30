@@ -6,6 +6,7 @@ input = []
 
 with open('electricity_hourly.csv', newline='') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+    next(csvreader)
     for row in csvreader:
         input.insert(len(input), [ ((row[2]).split(' '))[0].strip('"'), row[4].strip('"') ])
 
