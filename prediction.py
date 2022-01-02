@@ -3,6 +3,8 @@ import os
 from bs4 import BeautifulSoup as bs
 import matplotlib.pyplot as plt
 import numpy as np
+import math
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLocator
 
 input = []
 
@@ -118,7 +120,7 @@ for day in days:
                 num = num + weights[i]
     avg_temps.append(sum_temp / num)
 
-coeffs = [-171.76161, 1.91893, 10227.62947]
+coeffs = [-171.03690, 1.67069, 10250.98743]
 
 def fit_func(x, a, b, c):
 	return a * x + b * x**2 + c
@@ -135,8 +137,49 @@ for i, data in enumerate(results):
     pred.append(fit_func(avg_temps[i], coeffs[0], coeffs[1], coeffs[2]))
 
 
-plt.figure(figsize=(14, 10), dpi=80)
-plt.plot(dates, elec, label = "real electricity consumption")
-plt.plot(dates, pred, label = "predicted electricity consumption")
-plt.legend()
-plt.show()
+# calculate root mean squared error
+# https://machinelearningmastery.com/regression-metrics-for-machine-learning/
+
+biggest_err = 0.0
+smallest_err = 99999999999.0
+total_err = 0.0
+total_power = 0
+average_power = 0
+count = 0
+errors = list()
+for i in range(len(elec)):
+    count += 1
+    total_power += elec[i]
+    err = (pred[i] - elec[i])**2
+    errors.append(err)
+    total_err += err
+    if pred[i] - elec[i] > biggest_err:
+        biggest_err = pred[i] - elec[i]
+    elif pred[i] - elec[i] < smallest_err:
+        smallest_err = pred[i] - elec[i]
+rmse = math.sqrt(total_err / len(elec))
+average_power = total_power / count
+average_error = rmse / average_power
+average_error *= 100
+
+print(float(rmse))
+print(float(biggest_err))
+print(float(smallest_err))
+print(float(average_error))
+
+#fig, ax = plt.subplots()
+#ax.set_ylabel("Power, MW")
+#ax.set_xlabel("Day")
+#ax.xaxis.set_major_formatter(FormatStrFormatter('% 1.0f'))
+
+#fig.set_figwidth(14)
+#fig.set_figheight(14)
+#ax.plot(dates, elec, label = "real electricity consumption")
+#ax.plot(dates, pred, label = "predicted electricity consumption")
+#fig.legend()
+
+
+fig, ax = plt.subplots()
+ax.plot(dates, elec, label = "real electricity consumption")
+ax.plot(dates, pred, label = "predicted electricity consumption")
+ax.set_title('A single plot')
