@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 from scipy import stats
+import matplotlib
 
 input = []
 
@@ -62,7 +63,20 @@ yy = [i * slope + intercept for i in xx]
 print(slope)
 print(intercept)
 
-plt.figure(figsize=(14, 10), dpi=80)
+
+
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 18}
+
+matplotlib.rc('font', **font)
+
+plt.figure(figsize=(16, 10), dpi=80)
+plt.xlabel("temperature (°C)")
+plt.ylabel("Power (MW)")
 plt.plot(x, y, 'o')
-#plt.plot(xx, yy)
+axes = plt.gca()
+axes.xaxis.label.set_size(28)
+axes.yaxis.label.set_size(28)
+plt.legend()
 plt.show()

@@ -2,6 +2,7 @@ import csv
 import os
 from bs4 import BeautifulSoup as bs
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import math
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLocator
@@ -140,8 +141,6 @@ for i, data in enumerate(results):
 # calculate root mean squared error
 # https://machinelearningmastery.com/regression-metrics-for-machine-learning/
 
-biggest_err = 0.0
-smallest_err = 99999999999.0
 total_err = 0.0
 total_power = 0
 average_power = 0
@@ -151,12 +150,13 @@ for i in range(len(elec)):
     count += 1
     total_power += elec[i]
     err = (pred[i] - elec[i])**2
-    errors.append(err)
+    errors.append(abs(pred[i] - elec[i]))
     total_err += err
-    if pred[i] - elec[i] > biggest_err:
-        biggest_err = pred[i] - elec[i]
-    elif pred[i] - elec[i] < smallest_err:
-        smallest_err = pred[i] - elec[i]
+
+errors.sort()
+smallest_err = errors[0]
+biggest_err = errors[len(errors) - 1]
+
 rmse = math.sqrt(total_err / len(elec))
 average_power = total_power / count
 average_error = rmse / average_power
@@ -167,19 +167,21 @@ print(float(biggest_err))
 print(float(smallest_err))
 print(float(average_error))
 
-#fig, ax = plt.subplots()
-#ax.set_ylabel("Power, MW")
-#ax.set_xlabel("Day")
-#ax.xaxis.set_major_formatter(FormatStrFormatter('% 1.0f'))
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 18}
 
-#fig.set_figwidth(14)
-#fig.set_figheight(14)
-#ax.plot(dates, elec, label = "real electricity consumption")
-#ax.plot(dates, pred, label = "predicted electricity consumption")
-#fig.legend()
+matplotlib.rc('font', **font)
 
-
-fig, ax = plt.subplots()
-ax.plot(dates, elec, label = "real electricity consumption")
-ax.plot(dates, pred, label = "predicted electricity consumption")
-ax.set_title('A single plot')
+plt.figure(figsize=(16, 10), dpi=80)
+plt.xlabel("Day")
+plt.ylabel("Power (MW)")
+plt.plot(dates, elec, label = "real electricity consumption")
+plt.plot(dates, pred, label = "predicted electricity consumption")
+current_values = plt.gca().get_xticks()
+plt.gca().set_xticklabels([str(x % 32 + 1).split(".")[0] if i % 2 == 0  else "" for i, x in enumerate(current_values)])
+axes = plt.gca()
+axes.xaxis.label.set_size(28)
+axes.yaxis.label.set_size(28)
+plt.legend()
+plt.show()
